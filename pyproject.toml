@@ -1,0 +1,9 @@
+[project]
+name = "anime-time-spider"
+dependencies = [
+    "spider",
+]
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
