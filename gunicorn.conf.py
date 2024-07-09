@@ -15,6 +15,6 @@ bind = "0.0.0.0:26001"
 
 # 启动的进程数
 # workers = multiprocessing.cpu_count()
-workers = 1
+workers = 4
 worker_class = 'gevent'
 x_forwarded_for_header = 'X-FORWARDED-FOR'
