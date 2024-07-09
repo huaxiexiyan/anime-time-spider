@@ -33,7 +33,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: anime-time-spider/
+          context: ./
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/anime-time-spider:main
           # 缓存配置
