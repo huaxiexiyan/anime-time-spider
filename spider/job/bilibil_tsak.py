@@ -15,6 +15,12 @@ class BiliBiliTask:
         self.api_host = "https://api.bilibili.com"
 
     @classmethod
+    def season_index_task2(cls):
+        sleep_seconds = random.randint(3, 15)
+        app.logger.info("执行下个查询任务前准备休眠【%s】秒", sleep_seconds)
+        time.sleep(sleep_seconds)
+
+    @classmethod
     def season_index_task(cls):
         """
         查询番剧索引

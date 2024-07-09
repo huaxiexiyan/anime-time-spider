@@ -9,5 +9,5 @@ def start_job():
     :return:
     """
     bilibili_task = BiliBiliTask()
-    thread = threading.Thread(target=bilibili_task.season_index_task)
+    thread = threading.Thread(target=bilibili_task.season_index_task2)
     thread.start()
