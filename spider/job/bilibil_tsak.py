@@ -27,23 +27,19 @@ class BiliBiliTask:
         page = 1
         while 1:
             try:
-                # 查询成功,存储redis中
-                if start_year + 1 == end_year - 1:
-                    redis_key = f"bilibili:{start_year}:{page}"
-                else:
-                    redis_key = f"bilibili:{start_year}_{end_year - 1}:{page}"
-                is_exists = redis_client.exists(redis_key)
-                if is_exists:
-                    app.logger.info(
-                        "请求参数 【start_year=%s】【end_year=%s】【page=%s】页, redis_key=【%s】 已经存储过了，将跳过该页",
-                        start_year, end_year, page, redis_key)
-                    continue
                 response_json = bilibili_api.get_season_index(start_year, end_year, page).json()
                 if start_year is None:
                     # 第一部动画：《Pauvre Pierrot》（《可怜的皮埃罗》），发行于1892年10月28日
                     start_year = 1892
                 if "code" in response_json:
                     if response_json["code"] == 0:
+                        # 设置存储键
+                        if start_year + 1 == end_year:
+                            redis_key = f"bilibili:{start_year}:{page}"
+                        else:
+                            redis_key = f"bilibili:{start_year}_{end_year - 1}:{page}"
+
+                        # 计算下一个请求参数
                         if response_json["data"]["has_next"] == 1:
                             # 继续查询下一页
                             page += 1
@@ -80,7 +76,7 @@ class BiliBiliTask:
                     else:
                         redis_key = f"bilibili:fail:{start_year}_{end_year - 1}:{page}"
                 r = redis_client.set(redis_key, json.dumps(response_json))
-                app.logger.info("请求正常完成，已存储结果 【%s】", r)
+                app.logger.info("请求正常完成，存储【%s】结果 【%s】", redis_key, r)
                 if start_year is not None and start_year == 1892:
                     break
                 else:
