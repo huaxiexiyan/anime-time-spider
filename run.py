@@ -1,6 +1,5 @@
 # 用于启动应用的脚本。
 # run.py
-import json
 
 from spider import app
 

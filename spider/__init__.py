@@ -64,9 +64,9 @@ def initialize_redis():
 
 
 # 注册路由
-from spider.api import aliyun_drive_task_api
-
-app.register_blueprint(aliyun_drive_task_api.bp, url_prefix="/api/aliyun-drives")
+# from spider.api import aliyun_drive_task_api
+#
+# app.register_blueprint(aliyun_drive_task_api.bp, url_prefix="/api/aliyun-drives")
 
 # 启动简单循环job
 from spider.job.launcher import start_job
