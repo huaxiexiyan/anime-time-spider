@@ -1,7 +1,7 @@
 import threading
 
 from spider.job.bilibil_tsak import BiliBiliTask
-
+from spider import redis_client, app
 
 def start_job():
     """

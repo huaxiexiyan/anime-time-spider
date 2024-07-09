@@ -34,5 +34,5 @@ class BilibiliApi:
 
         response = requests.get(url, json=payload, params=params, headers=headers, timeout=5)
         app.logger.info(
-            f"请求参数 【start_year={start_year}】【end_year={end_year}】【page={page}】 页，实际请求: {response.request.url}")
+            "请求参数【start_year=%s】【end_year=%s】【page=%s】页，实际请求【%s】",start_year,end_year,page,response.request.url)
         return response
