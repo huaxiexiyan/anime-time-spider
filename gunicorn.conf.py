@@ -13,7 +13,7 @@ bind = "0.0.0.0:26001"
 # True 就是后台启动
 # daemon = True
 
-# 启动的进程数
+# 启动的进程数, 其实就是实例数（类似于一个服务部署了多个），之间的内存资源都不互通，启动多个需要考虑并发问题
 # workers = multiprocessing.cpu_count()
 workers = 1
 worker_class = 'gevent'
