@@ -15,7 +15,7 @@ class BiliBiliTask:
         self.api_host = "https://api.bilibili.com"
 
     @classmethod
-    def season_index_task(cls):
+    def season_index_result_task(cls):
         """
         查询番剧索引
         :return:
@@ -27,7 +27,7 @@ class BiliBiliTask:
         page = 1
         while 1:
             try:
-                response_json = bilibili_api.get_season_index(start_year, end_year, page).json()
+                response_json = bilibili_api.get_season_index_result(start_year, end_year, page).json()
                 if start_year is None:
                     # 第一部动画：《Pauvre Pierrot》（《可怜的皮埃罗》），发行于1892年10月28日
                     start_year = 1892
@@ -35,9 +35,9 @@ class BiliBiliTask:
                     if response_json["code"] == 0:
                         # 设置存储键
                         if start_year + 1 == end_year:
-                            redis_key = f"bilibili:{start_year}:{page}"
+                            redis_key = f"bilibili:season:index:result:success:{start_year}:{page}"
                         else:
-                            redis_key = f"bilibili:{start_year}_{end_year - 1}:{page}"
+                            redis_key = f"bilibili:season:index:result:success:{start_year}_{end_year - 1}:{page}"
 
                         # 计算下一个请求参数
                         if response_json["data"]["has_next"] == 1:
@@ -67,14 +67,14 @@ class BiliBiliTask:
                             page = 1
                     else:
                         if start_year + 1 == end_year:
-                            redis_key = f"bilibili:fail:{start_year}:{page}"
+                            redis_key = f"bilibili:season:index:result:fail:{start_year}:{page}"
                         else:
-                            redis_key = f"bilibili:fail:{start_year}_{end_year - 1}:{page}"
+                            redis_key = f"bilibili:season:index:result:fail:{start_year}_{end_year - 1}:{page}"
                 else:
                     if start_year + 1 == end_year:
-                        redis_key = f"bilibili:fail:{start_year}:{page}"
+                        redis_key = f"bilibili:season:index:result:fail:{start_year}:{page}"
                     else:
-                        redis_key = f"bilibili:fail:{start_year}_{end_year - 1}:{page}"
+                        redis_key = f"bilibili:season:index:result:fail:{start_year}_{end_year - 1}:{page}"
                 r = redis_client.set(redis_key, json.dumps(response_json))
                 app.logger.info("请求正常完成，存储【%s】结果 【%s】", redis_key, r)
                 if start_year is not None and start_year == 1892:
@@ -93,3 +93,19 @@ class BiliBiliTask:
                 # 捕获其他异常,
                 app.logger.exception("发生未预料的错误")
         app.logger.info("<<<<<<============ bilibili番剧索引查询任务【结束】 ============ >>>>>>")
+
+    @classmethod
+    def season_index_condition_task(cls):
+        bilibili_api = BilibiliApi()
+        response_json = bilibili_api.get_season_index_condition().json()
+        if "code" in response_json:
+            if response_json["code"] == 0:
+                # 设置存储键
+                redis_key = "bilibili:season:index:condition:success"
+            else:
+                # 设置存储键
+                redis_key = "bilibili:season:index:condition:fail"
+        else:
+            redis_key = "bilibili:season:index:condition:fail"
+        r = redis_client.set(redis_key, json.dumps(response_json))
+        app.logger.info("请求正常完成，存储【%s】结果 【%s】", redis_key, r)

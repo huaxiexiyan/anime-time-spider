@@ -1,7 +1,6 @@
 import threading
 
 from spider.job.bilibil_tsak import BiliBiliTask
-from spider import redis_client, app
 
 def start_job():
     """
@@ -9,5 +8,6 @@ def start_job():
     :return:
     """
     bilibili_task = BiliBiliTask()
-    thread = threading.Thread(target=bilibili_task.season_index_task)
-    thread.start()
+    # thread = threading.Thread(target=bilibili_task.season_index_result_task)
+    # thread = threading.Thread(target=bilibili_task.season_index_condition_task)
+    # thread.start()
