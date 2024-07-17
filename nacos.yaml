@@ -1,0 +1,15 @@
+nacos:
+  application:
+    name: anime-time-spider
+  config:
+    server-addr: ${nacos.server.address}
+    username: ${nacos.username}
+    password: ${nacos.password}
+    namespace: ${nacos.namespace}
+  discovery:
+    server-addr: ${nacos.server.address}
+    username: ${nacos.username}
+    password: ${nacos.password}
+    namespace: ${nacos.namespace}
+  import:
+    - anime-time-spider.yaml

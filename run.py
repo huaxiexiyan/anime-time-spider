@@ -1,6 +1,5 @@
 # 用于启动应用的脚本。
-# run.py
-
+import spider
 from spider import app
 
 
@@ -21,4 +20,4 @@ if __name__ == '__main__':
     print('已注册的路由地址如下')
     print(list_routes())
     # app.run(debug=True)
-    app.run(debug=False)
+    app.run(debug=False, port=spider.bind_port)
