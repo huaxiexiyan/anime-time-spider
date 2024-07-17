@@ -43,7 +43,7 @@ dictConfig({
         }
     },
     'root': {
-        'level': 'INFO',
+        'level': 'DEBUG',
         'handlers': ['wsgi', 'file']  # 同时记录到控制台和文件
     }
 })
