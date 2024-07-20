@@ -6,8 +6,8 @@ from logging.config import dictConfig
 from flask import Flask
 from flask_redis import FlaskRedis
 
-
 # ======================== flask配置 ================================
+app.logger.info('<<<<<<======================== flask 初始化 start ================================>>>>>> ')
 # 日志配置
 class HeartbeatFilter(logging.Filter):
     def filter(self, record):
@@ -105,6 +105,7 @@ nacos_service = NacosService(nacos_config_path=nacos_config_yaml_path, gunicorn_
 nacos_service.pull_config()
 nacos_service.register_instance()
 bind_port = nacos_service.get_port_from_bind()
+app.logger.info('<<<<<<======================== nacos 注册 end ================================>>>>>> ')
 
 # 配置Redis连接
 nacos_redis_config_yaml = nacos_service.nacos_application_yaml['redis']
@@ -122,3 +123,4 @@ except Exception as e:
 # from spider.job.launcher import start_job
 #
 # start_job()
+app.logger.info('<<<<<<======================== flask 初始化 end ================================>>>>>> ')
