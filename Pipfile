@@ -16,7 +16,6 @@ gevent = "*"
 pyyaml = "*"
 psutil = "*"
 nacos-sdk-python = "*"
-netifaces = "*"
 
 [dev-packages]
 

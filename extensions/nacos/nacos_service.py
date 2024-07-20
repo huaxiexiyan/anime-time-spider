@@ -23,16 +23,20 @@ class NacosService:
         self.nacos_yaml = nacos_yaml
         nacos_yaml_config = nacos_yaml['nacos']['config']
         nacos_yaml_discovery = nacos_yaml['nacos']['discovery']
-
         # 创建连接客户端
         self.nacos_config_client = nacos.NacosClient(server_addresses=nacos_yaml_config['server-addr'],
                                                      namespace=nacos_yaml_config['namespace'],
                                                      username=nacos_yaml_config['username'],
                                                      password=nacos_yaml_config['password'])
-        self.nacos_discovery_client = nacos.NacosClient(server_addresses=nacos_yaml_discovery['server-addr'],
-                                                        namespace=nacos_yaml_discovery['namespace'],
-                                                        username=nacos_yaml_discovery['username'],
-                                                        password=nacos_yaml_discovery['password'])
+        if nacos_yaml_config['server-addr'] == nacos_yaml_discovery['server-addr']:
+            app.logger.info('<<<<<<============ 配置中心与注册中心地址一样，只需共用一个客户端 ============>>>>>')
+            self.nacos_discovery_client = self.nacos_config_client
+        else:
+            app.logger.info('<<<<<<============ 注册中心与配置中心地址不一样，创建注册中心连接客户端 ============>>>>>')
+            self.nacos_discovery_client = nacos.NacosClient(server_addresses=nacos_yaml_discovery['server-addr'],
+                                                            namespace=nacos_yaml_discovery['namespace'],
+                                                            username=nacos_yaml_discovery['username'],
+                                                            password=nacos_yaml_discovery['password'])
 
     def pull_config(self):
         data_id = self.nacos_yaml['nacos']['import'][0]

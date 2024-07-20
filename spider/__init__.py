@@ -81,7 +81,7 @@ env_nacos_namespace = os.environ.get('nacos.namespace')
 env_nacos_username = os.environ.get('nacos.username')
 env_nacos_password = os.environ.get('nacos.password')
 app.logger.info(
-    '加载环境变量参数: \n nacos.server.address=【%s】; \n nacos.namespace=【%s】; \n nacos.username=【%s】; \n nacos.password=【%s】',
+    '加载环境变量参数: \nacos.server.address=【%s】\nnacos.namespace=【%s】\nnacos.username=【%s】\nnacos.password=【%s】',
     env_nacos_address, env_nacos_namespace, env_nacos_username, env_nacos_password)
 
 replacements = {
@@ -106,7 +106,7 @@ nacos_service = NacosService(nacos_config_path=nacos_config_yaml_path, gunicorn_
 nacos_service.pull_config()
 nacos_service.register_instance()
 bind_port = nacos_service.get_port_from_bind()
-app.logger.info('<<<<<<======================== nacos 注册 end ================================>>>>>> ')
+app.logger.info('<<<<<<======================== nacos 注册 end ================================>>>>>>')
 
 # 配置Redis连接
 nacos_redis_config_yaml = nacos_service.nacos_application_yaml['redis']
@@ -115,9 +115,10 @@ app.config['REDIS_URL'] = nacos_redis_config_yaml['url']
 redis_client = FlaskRedis(app, decode_responses=True)
 try:
     redis_client.ping()
-    app.logger.info('Redis连接成功: %s', nacos_redis_config_yaml['url'])
+    app.logger.info('<<<<<<======================== Redis连接成功: %s ================================>>>>>>',
+                    app.config['REDIS_URL'])
 except Exception as e:
-    app.logger.error('Redis连接失败: %s', e)
+    app.logger.exception('<<<<<<======================== Redis连接失败: %s ================================>>>>>>')
 
 # ======================== 应用启动后配置 ================================
 # 启动简单循环job
