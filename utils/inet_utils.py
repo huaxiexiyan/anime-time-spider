@@ -20,9 +20,10 @@ class InetUtils:
             app.logger.info('获取ip family=【%s】', family)
             for addr in address:
                 # fam, addr, mask, broadcast, ptp
-                app.logger.info('获取ip netmask=【%s】', addr.netmask)
+
                 family = addr.family
                 netmask = addr.netmask
+                app.logger.info('获取ip netmask=【%s】 addr=【%s】', netmask, addr)
                 if family == socket.AF_INET and re.match(
                         "^255.255.255.(?!0$)(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])$", netmask):
                     ipv4 = addr.address
