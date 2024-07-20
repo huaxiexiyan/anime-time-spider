@@ -6,8 +6,8 @@ from logging.config import dictConfig
 from flask import Flask
 from flask_redis import FlaskRedis
 
+
 # ======================== flask配置 ================================
-app.logger.info('<<<<<<======================== flask 初始化 start ================================>>>>>> ')
 # 日志配置
 class HeartbeatFilter(logging.Filter):
     def filter(self, record):
@@ -62,8 +62,9 @@ app.config.from_pyfile('config.py', silent=True)
 try:
     os.makedirs(app.instance_path)
 except OSError:
-    pass
+    app.logger.exception('<<<<<<======================== flask 初始化异常 ================================>>>>>> ')
 
+app.logger.info('<<<<<<======================== flask 初始化 start ================================>>>>>> ')
 # 注册路由
 # from spider.api import aliyun_drive_task_api
 #
