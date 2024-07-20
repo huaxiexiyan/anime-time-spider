@@ -1,5 +1,4 @@
 # nacos配置
-import threading
 import time
 
 import nacos
@@ -66,14 +65,14 @@ class NacosService:
             group_name=group_name,
             metadata=metadata
         )
-        app.logger.info("nacos 注册实例, %s %s %s:%s register finished", group_name, service_name, ipv4, port)
+        app.logger.info("nacos 注册实例【%s %s %s:%s】成功", group_name, service_name, ipv4, port)
         # 延迟一下
-        time.sleep(1)
-        # 注册完，定时发送心跳
-        thread = threading.Thread(target=self.send_heartbeat, name="send_heartbeat_threads",
-                                  args=(self.nacos_discovery_client, service_name, ipv4, port, group_name, metadata),
-                                  daemon=True)
-        thread.start()
+        # time.sleep(1)
+        # # 注册完，定时发送心跳
+        # thread = threading.Thread(target=self.send_heartbeat, name="send_heartbeat_threads",
+        #                           args=(self.nacos_discovery_client, service_name, ipv4, port, group_name, metadata),
+        #                           daemon=True)
+        # thread.start()
 
     def send_heartbeat(self, client, service_name, ip, port, group_name, metadata):
         """
