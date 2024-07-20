@@ -20,4 +20,4 @@ COPY . .
 EXPOSE 26001
 
 # 启动Flask应用程序
-CMD ["pipenv", "run", "gunicorn", "-c", "gunicorn.conf.py", "run:app"]
+CMD ["pipenv", "run", "gunicorn", "-c", "gunicorn.conf.py", "run:app", "--preload"]
