@@ -7,6 +7,8 @@ WORKDIR /app
 # 安装依赖
 COPY Pipfile Pipfile.lock ./
 RUN pip install pipenv && pipenv install --deploy --ignore-pipfile
+# 复制应用代码
+COPY . .
 
 # 最终镜像，复制依赖+代码
 FROM gcr.io/distroless/python3 AS final
