@@ -3,6 +3,8 @@ import socket
 
 import psutil
 
+from spider import app
+
 
 class InetUtils:
     def __init__(self):
@@ -15,8 +17,10 @@ class InetUtils:
         net_if_addrs = psutil.net_if_addrs()
         for family, address in net_if_addrs.items():
             flag = False
+            app.logger.info('获取ip family=【%s】', family)
             for addr in address:
                 # fam, addr, mask, broadcast, ptp
+                app.logger.info('获取ip netmask=【%s】', addr.netmask)
                 family = addr.family
                 netmask = addr.netmask
                 if family == socket.AF_INET and re.match(
@@ -26,6 +30,8 @@ class InetUtils:
                 if flag and family == socket.AF_INET6:
                     ipv6 = addr.address
                     break
+        if ipv4 is None:
+            raise Exception('nacos 实例注册异常，未获取到有效 ipv4 地址')
         return ipv4, ipv6
 
 # if __name__ == "__main__":

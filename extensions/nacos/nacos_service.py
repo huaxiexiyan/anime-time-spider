@@ -44,10 +44,12 @@ class NacosService:
     def register_instance(self):
         # 注册实例
         ipv4, ipv6 = InetUtils.find_first_non_loopback_address()
+        app.logger.info("获取实例ip地址, ipv4=【%s】; ipv6=【%s】", ipv4, ipv6)
         metadata = {
-            "preserved.register.source": "FLASK",
-            'ipv6': f"[{ipv6}]"
+            "preserved.register.source": "FLASK"
         }
+        if ipv6 is not None:
+            metadata['ipv6'] = f"[{ipv6}]"
         # param service_name 必需要注册的服务名称。
         service_name = self.nacos_yaml['nacos']['application']['name']
         group_name = "DEFAULT_GROUP"
@@ -60,7 +62,7 @@ class NacosService:
             group_name=group_name,
             metadata=metadata
         )
-        app.logger.info("nacos registry, %s %s %s:%s register finished", group_name, service_name, ipv4, port)
+        app.logger.info("nacos 注册实例, %s %s %s:%s register finished", group_name, service_name, ipv4, port)
         # 注册完，定时发送心跳
         thread = threading.Thread(target=self.send_heartbeat, name="send_heartbeat_threads",
                                   args=(self.nacos_discovery_client, service_name, ipv4, port, group_name, metadata),
