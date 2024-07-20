@@ -62,7 +62,7 @@ app.config.from_pyfile('config.py', silent=True)
 try:
     os.makedirs(app.instance_path)
 except OSError:
-    app.logger.exception('<<<<<<======================== flask 初始化异常 ================================>>>>>> ')
+    pass
 
 app.logger.info('<<<<<<======================== flask 初始化 start ================================>>>>>> ')
 # 注册路由

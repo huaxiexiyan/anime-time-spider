@@ -67,6 +67,8 @@ class NacosService:
             metadata=metadata
         )
         app.logger.info("nacos 注册实例, %s %s %s:%s register finished", group_name, service_name, ipv4, port)
+        # 延迟一下
+        time.sleep(1)
         # 注册完，定时发送心跳
         thread = threading.Thread(target=self.send_heartbeat, name="send_heartbeat_threads",
                                   args=(self.nacos_discovery_client, service_name, ipv4, port, group_name, metadata),
