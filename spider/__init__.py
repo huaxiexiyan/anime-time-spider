@@ -26,15 +26,15 @@ dictConfig({
         'wsgi': {
             'class': 'logging.StreamHandler',
             'stream': 'ext://flask.logging.wsgi_errors_stream',
-            'formatter': 'default',
-            'filters': ['heartbeat_filter']  # 应用过滤器
+            'formatter': 'default'
+            # 'filters': ['heartbeat_filter']  # 应用过滤器
         },
         'file': {
             'class': 'logging.FileHandler',
             'filename': './anime-time-spider.log',  # 设置日志文件路径
             'formatter': 'default',
-            'encoding': 'utf8',
-            'filters': ['heartbeat_filter']  # 应用过滤器
+            'encoding': 'utf8'
+            # 'filters': ['heartbeat_filter']  # 应用过滤器
         }
     },
     'filters': {
@@ -43,7 +43,7 @@ dictConfig({
         }
     },
     'root': {
-        'level': 'DEBUG',
+        'level': 'INFO',
         'handlers': ['wsgi', 'file']  # 同时记录到控制台和文件
     }
 })
