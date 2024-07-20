@@ -10,7 +10,7 @@ ENV PYTHONUNBUFFERED 1
 WORKDIR /app
 
 # 安装依赖
-COPY Pipfile Pipfile.lock ./
+COPY Pipfile ./
 RUN pip install pipenv && pipenv install --deploy --ignore-pipfile
 
 # 复制应用代码
