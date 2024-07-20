@@ -1,5 +1,4 @@
 # nacos配置
-import time
 
 import nacos
 import yaml
@@ -58,37 +57,16 @@ class NacosService:
         group_name = "DEFAULT_GROUP"
         # param port 必填实例的端口。
         port = self.get_port_from_bind()
+        # heartbeat_interval=5 设置该参数即可启动心跳维护
         self.nacos_discovery_client.add_naming_instance(
             service_name=service_name,
             ip=ipv4,
             port=port,
             group_name=group_name,
-            metadata=metadata
+            metadata=metadata,
+            heartbeat_interval=5
         )
         app.logger.info("nacos 注册实例【%s %s %s:%s】成功", group_name, service_name, ipv4, port)
-        # 延迟一下
-        # time.sleep(1)
-        # # 注册完，定时发送心跳
-        # thread = threading.Thread(target=self.send_heartbeat, name="send_heartbeat_threads",
-        #                           args=(self.nacos_discovery_client, service_name, ipv4, port, group_name, metadata),
-        #                           daemon=True)
-        # thread.start()
-
-    def send_heartbeat(self, client, service_name, ip, port, group_name, metadata):
-        """
-        发送心跳
-        :param client: 服务注册 nacos 客户端
-        :param service_name: 注册的服务名字
-        :param ip: 注册服务的 ip
-        :param port: 注册服务的 port
-        :param group_name: 注册服务的分组
-        :param metadata: 注册服务的其他参数
-        :return:
-        """
-        while True:
-            client.send_heartbeat(service_name, ip, port, group_name=group_name, metadata=metadata)
-            # 每个 5 秒发送一次
-            time.sleep(5)
 
     def get_port_from_bind(self):
         """
@@ -123,8 +101,3 @@ class NacosService:
         with open(file_path, 'r', encoding='utf-8') as f:
             exec(f.read(), config)
         return config
-
-# if __name__ == '__main__':
-#     with open('nacos.yaml', 'r', encoding="utf-8") as file:
-#         config = yaml.safe_load(file)
-#     print(config)
