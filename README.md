@@ -1,15 +1,28 @@
 # 本地运行
+
 ## 安装依赖
+
 ```shell
 pipenv install
 ```
 
+## 安装卸载依赖
+
+使用兼容pip
+
+```shell
+pipenv install [依赖名]
+pipenv uninstall [依赖名]
+```
+
 ## 进入虚拟环境
+
 ```txt
 IDEA中选择 .venv/Scripts/python.exe 解释器
 ```
 
 ## 注意事项
+
 ```txt
 本地启动，需要将此改成自己的redis地址
 app.config['REDIS_URL'] = os.environ.get('REDIS_URL')
