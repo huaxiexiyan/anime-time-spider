@@ -10,10 +10,12 @@ pytz = "*"
 tenacity = "*"
 redis = "*"
 flask-redis = "*"
-flask = {extras = ["async"], version = "*"}
+flask = { extras = ["async"], version = "*" }
 gunicorn = "*"
 gevent = "*"
 pyyaml = "*"
+psutil = "*"
+nacos-sdk-python = "*"
 
 [dev-packages]
 

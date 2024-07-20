@@ -75,13 +75,22 @@ import uuid
 import atexit
 
 # 读取环境变量
+env_nacos_address = os.environ.get('nacos.server.address')
+env_nacos_namespace = os.environ.get('nacos.namespace')
+env_nacos_username = os.environ.get('nacos.username')
+env_nacos_password = os.environ.get('nacos.password')
+app.logger.info(
+    '加载环境变量参数: \n nacos.server.address=【%s】; \n nacos.namespace=【%s】; \n nacos.username=【%s】; \n nacos.password=【%s】',
+    env_nacos_address, env_nacos_namespace, env_nacos_username, env_nacos_password)
+
 replacements = {
-    'nacos.server.address': os.environ.get('nacos.server.address'),
-    'nacos.namespace': os.environ.get('nacos.namespace'),
-    'nacos.username': os.environ.get('nacos.username'),
-    'nacos.password': os.environ.get('nacos.password')
+    'nacos.server.address': env_nacos_address,
+    'nacos.namespace': env_nacos_namespace,
+    'nacos.username': env_nacos_username,
+    'nacos.password': env_nacos_password
 }
 project_path = os.path.dirname(app.root_path)
+app.logger.info('获取项目根路径: %s', project_path)
 config = EnvParameterUtils.load_and_replace_config(os.path.join(project_path, 'nacos.yaml'), replacements)
 nacos_config_yaml_path = os.path.join(project_path, f'nacos-{uuid.uuid1().hex}.yaml')
 YamlUtils.save_yaml_config(config, nacos_config_yaml_path)

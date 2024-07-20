@@ -1,5 +1,6 @@
 import re
 
+from spider import app
 from utils.yaml_utils import YamlUtils
 
 
@@ -24,4 +25,5 @@ class EnvParameterUtils:
     @classmethod
     def load_and_replace_config(cls, yaml_path, replacements):
         config = YamlUtils.load_yaml_config(yaml_path)
+        app.logger.info('成功加载nacos模版配置文件: \n %s', config)
         return cls.replace_placeholders(config, replacements)

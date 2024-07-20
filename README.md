@@ -78,3 +78,10 @@ docker run -e $env $disk --name $service_name --net catguild -di -p $open_port:$
 echo "容器启动成功"
 ```
 
+### 部署出错，显示进一步的错误信息
+
+使用参数`--preload`
+
+```dockerfile
+CMD ["pipenv", "run", "gunicorn", "-c", "gunicorn.conf.py", "run:app", "--preload"]
+```
