@@ -4,7 +4,7 @@ WORKDIR /myapp
 #COPY Pipfile Pipfile.lock ./
 COPY Pipfile ./
 RUN #pip install pipenv && pipenv install --deploy --ignore-pipfile
-RUN pip install pipenv && pipenv install
+RUN pip install --no-cache-dir pipenv && pipenv install --deploy --ignore-pipfile --system
 RUN pwd
 RUN ls -a
 RUN pipenv --version
