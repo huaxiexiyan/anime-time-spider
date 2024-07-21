@@ -5,7 +5,7 @@ WORKDIR /myapp
 COPY Pipfile ./
 RUN pip install --no-cache-dir pipenv && \
     mkdir .venv && \
-    pipenv install --deploy --ignore-pipfile --system
+    pipenv install --deploy --ignore-pipfile
 RUN pwd
 RUN ls -a
 RUN pipenv --version
