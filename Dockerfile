@@ -4,19 +4,21 @@ WORKDIR /myapp
 COPY Pipfile Pipfile.lock ./
 RUN pip install pipenv && pipenv install --deploy --ignore-pipfile
 RUN pwd
-RUN ls
+RUN ls -a
+RUN pipenv --version
 
 # 将 pipenv 复制到最终镜像
 # FROM gcr.io/distroless/python3-debian11
 FROM python:3.11.3
 COPY --from=build /myapp /myapp
+RUN ls -a
 WORKDIR /myapp
 COPY . ./
 # 暴露Flask应用程序的端口（通常是5000）
 # 确保不生成 .pyc 文件,不会在 stdout 和 stderr 缓冲 I/O
 ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
 RUN pwd
-RUN ls
+RUN ls -a
 EXPOSE 26001
 #ENTRYPOINT ["/venv/bin/python3", "psutil_example.py"]
 # 启动
