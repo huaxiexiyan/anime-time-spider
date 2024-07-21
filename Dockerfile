@@ -3,6 +3,8 @@ FROM python:3.11.3 AS build
 WORKDIR /myapp
 COPY Pipfile Pipfile.lock ./
 RUN pip install pipenv && pipenv install --deploy --ignore-pipfile
+RUN pwd
+RUN ls
 
 # 将 pipenv 复制到最终镜像
 # FROM gcr.io/distroless/python3-debian11
