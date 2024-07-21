@@ -3,7 +3,6 @@ FROM python:3.11.3 AS build
 WORKDIR /myapp
 #COPY Pipfile Pipfile.lock ./
 COPY Pipfile ./
-RUN #pip install pipenv && pipenv install --deploy --ignore-pipfile
 RUN pip install --no-cache-dir pipenv && pipenv install --deploy --ignore-pipfile --system
 RUN pwd
 RUN ls -a
