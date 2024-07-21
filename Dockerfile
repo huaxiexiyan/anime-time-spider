@@ -1,5 +1,5 @@
 # 将 pipenv 构建为单独的步骤
-FROM python:3.11-slim AS build
+FROM python:3.11.3 AS build
 COPY Pipfile Pipfile.lock ./
 WORKDIR /myapp
 RUN pip install pipenv && pipenv install --deploy --ignore-pipfile
