@@ -2,6 +2,7 @@
 FROM debian:11-slim AS build
 RUN apt-get update && \
     apt-get install --no-install-suggests --no-install-recommends --yes gcc libpython3-dev && \
+    pip install pipenv && \
     pipenv shell && \
     pipenv install --upgrade pip setuptools wheel
 
