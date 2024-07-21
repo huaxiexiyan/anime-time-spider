@@ -1,11 +1,41 @@
 # 构建 python 环境
 FROM debian:11-slim AS build
+# 更新并安装构建Python所需的依赖
 RUN apt-get update && \
-    apt-get install --no-install-suggests --no-install-recommends --yes gcc libpython3.11-dev && \
-    pip install pipenv && \
-    pip install --upgrade pip setuptools wheel &&\
+    apt-get install --no-install-suggests --no-install-recommends --yes \
+    gcc \
+    make \
+    libssl-dev \
+    zlib1g-dev \
+    libbz2-dev \
+    libreadline-dev \
+    libsqlite3-dev \
+    wget \
+    curl \
+    llvm \
+    libncurses5-dev \
+    libncursesw5-dev \
+    xz-utils \
+    tk-dev \
+    libffi-dev \
+    liblzma-dev && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
+
+# 下载并编译安装Python 3.11
+RUN wget https://www.python.org/ftp/python/3.11.0/Python-3.11.0.tgz && \
+    tar -xf Python-3.11.0.tgz && \
+    cd Python-3.11.0 && \
+    ./configure --enable-optimizations && \
+    make -j $(nproc) && \
+    make altinstall && \
+    cd .. && \
+    rm -rf Python-3.11.0 Python-3.11.0.tgz
+
+# 安装pipenv及其他依赖
+RUN python3.11 -m ensurepip && \
+    python3.11 -m pip install --upgrade pip setuptools wheel && \
+    python3.11 -m pip install pipenv
 
 # 将 pipenv 构建为单独的步骤：仅当 Pipfile 更改时才重新执行此步骤
 FROM build AS build-venv
