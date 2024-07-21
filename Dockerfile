@@ -1,7 +1,8 @@
 # 将 pipenv 构建为单独的步骤
 FROM python:3.11.3 AS build
 WORKDIR /myapp
-COPY Pipfile Pipfile.lock ./
+#COPY Pipfile Pipfile.lock ./
+COPY Pipfile ./
 RUN pip install pipenv && pipenv install --deploy --ignore-pipfile
 RUN pwd
 RUN ls -a

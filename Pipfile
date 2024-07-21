@@ -15,7 +15,7 @@ gunicorn = "*"
 gevent = "*"
 pyyaml = "*"
 psutil = "*"
-nacos-sdk-python = "*"
+#nacos-sdk-python = "*"
 
 [dev-packages]
 
