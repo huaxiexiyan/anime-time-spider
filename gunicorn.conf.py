@@ -1,6 +1,6 @@
-# import gevent.monkey
+import gevent.monkey
 
-# gevent.monkey.patch_all()
+gevent.monkey.patch_all()
 
 loglevel = 'info'
 bind = "0.0.0.0:26001"
@@ -15,7 +15,7 @@ bind = "0.0.0.0:26001"
 # workers = multiprocessing.cpu_count()
 workers = 1
 # 同步网络模型
-worker_class = 'sync'
+worker_class = 'gevent'
 x_forwarded_for_header = 'X-FORWARDED-FOR'
 # 预加载应用: 在工作进程启动前预加载应用代码
 preload_app = True
