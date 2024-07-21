@@ -25,7 +25,7 @@ RUN ls -a
 EXPOSE 26001
 #ENTRYPOINT ["/venv/bin/python3", "psutil_example.py"]
 # 启动
-CMD ["pipenv", "run", "gunicorn", "-c", "gunicorn.conf.py", "run:myapp", "--preload"]
+CMD ["./.venv/bin/gunicorn", "-c", "gunicorn.conf.py", "run:myapp", "--preload"]
 
 
 
