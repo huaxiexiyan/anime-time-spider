@@ -12,6 +12,7 @@ WORKDIR /myapp
 # 暴露Flask应用程序的端口（通常是5000）
 # 确保不生成 .pyc 文件,不会在 stdout 和 stderr 缓冲 I/O
 ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
+RUN pwd
 EXPOSE 26001
 #ENTRYPOINT ["/venv/bin/python3", "psutil_example.py"]
 # 启动
