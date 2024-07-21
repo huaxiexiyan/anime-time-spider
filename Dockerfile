@@ -1,6 +1,6 @@
 # 将 pipenv 构建为单独的步骤
 FROM python:3.11.3 AS build
-WORKDIR /myapp
+WORKDIR /app
 COPY Pipfile Pipfile.lock ./
 RUN pip install --no-cache-dir pipenv && \
     mkdir .venv && \
