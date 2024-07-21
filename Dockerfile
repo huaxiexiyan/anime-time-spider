@@ -15,7 +15,7 @@ ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
 EXPOSE 26001
 #ENTRYPOINT ["/venv/bin/python3", "psutil_example.py"]
 # 启动
-CMD ["pip", "run", "gunicorn", "-c", "gunicorn.conf.py", "run:myapp", "--preload"]
+CMD ["pipenv", "run", "gunicorn", "-c", "gunicorn.conf.py", "run:myapp", "--preload"]
 
 
 
