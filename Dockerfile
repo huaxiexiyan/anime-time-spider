@@ -1,9 +1,9 @@
 # 构建 python 环境
 FROM debian:11-slim AS build
 RUN apt-get update && \
-    apt-get install --no-install-suggests --no-install-recommends --yes python3-venv gcc libpython3-dev && \
-    python3 -m venv /venv && \
-    /venv/bin/pip install --upgrade pip setuptools wheel
+    apt-get install --no-install-suggests --no-install-recommends --yes gcc libpython3-dev && \
+    pipenv shell && \
+    pipenv install --upgrade pip setuptools wheel
 
 # 将 pipenv 构建为单独的步骤：仅当 Pipfile 更改时才重新执行此步骤
 FROM build AS build-venv
