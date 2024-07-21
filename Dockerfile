@@ -17,7 +17,7 @@ COPY . ./
 ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
 EXPOSE 26001
 # 启动
-CMD ["./.venv/bin/gunicorn", "-c", "gunicorn.conf.py", "run:app", "--preload"]
+CMD [".venv/bin/gunicorn", "-c", "gunicorn.conf.py", "run:app", "--preload"]
 
 
 ## 使用一个基础镜像，可以根据你的需求选择不同的Python版本
