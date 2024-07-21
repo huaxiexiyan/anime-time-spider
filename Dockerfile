@@ -7,8 +7,8 @@ RUN pip install --no-cache-dir pipenv && \
     pipenv install --deploy --ignore-pipfile
 
 # 将 pipenv 复制到最终镜像
-# FROM gcr.io/distroless/python3-debian11
-FROM python:3.11.3
+FROM gcr.io/distroless/python3-debian11
+#FROM python:3.11.3
 COPY --from=build /app /app
 WORKDIR /app
 COPY . ./

@@ -17,7 +17,5 @@ def list_routes():
 
 
 if __name__ == '__main__':
-    print('已注册的路由地址如下')
-    print(list_routes())
-    # app.run(debug=True)
+    app.logger.info('已注册的路由地址如下: \n%s', list_routes())
     app.run(debug=False, port=spider.bind_port)
