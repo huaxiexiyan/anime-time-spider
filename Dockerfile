@@ -1,21 +1,13 @@
-# 构建 python 环境
-FROM debian:11-slim AS build
-RUN apt-get update && \
-    apt-get install --no-install-suggests --no-install-recommends --yes gcc libpython3-dev && \
-    pip install pipenv && \
-    pipenv shell && \
-    pipenv install --upgrade pip setuptools wheel
-
-# 将 pipenv 构建为单独的步骤：仅当 Pipfile 更改时才重新执行此步骤
-FROM build AS build-venv
+# 将 pipenv 构建为单独的步骤
+FROM python:3.11-slim AS build
 COPY Pipfile Pipfile.lock ./
 WORKDIR /myapp
-RUN pipenv install --deploy --ignore-pipfile
+RUN pip install pipenv && pipenv install --deploy --ignore-pipfile
 
 # 将 pipenv 复制到最终镜像
 FROM gcr.io/distroless/python3-debian11
-COPY --from=build-venv /myapp /myapp
-COPY . /myapp/pipenv
+COPY --from=build /myapp /myapp
+COPY . ./
 WORKDIR /myapp
 # 暴露Flask应用程序的端口（通常是5000）
 # 确保不生成 .pyc 文件,不会在 stdout 和 stderr 缓冲 I/O
