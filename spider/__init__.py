@@ -120,9 +120,24 @@ try:
 except Exception as e:
     app.logger.exception('<<<<<<======================== Redis连接失败: %s ================================>>>>>>')
 
+
 # ======================== 应用启动后配置 ================================
 # 启动简单循环job
 # from spider.job.launcher import start_job
 #
 # start_job()
+def list_routes():
+    output = []
+    for rule in app.url_map.iter_rules():
+        options = {}
+        for arg in rule.arguments:
+            options[arg] = "[{0}]".format(arg)
+        methods = ','.join(rule.methods)
+        url = rule.rule
+        line = "{:50s} {:20s} {}".format(url, methods, options)
+        output.append(line)
+    return "\n".join(output)
+
+
+app.logger.info('已注册的路由地址如下: \n%s', list_routes())
 app.logger.info('<<<<<<======================== flask 初始化 end ================================>>>>>> ')
