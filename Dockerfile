@@ -16,7 +16,7 @@ RUN pipenv install --deploy --ignore-pipfile
 # 将 pipenv 复制到最终镜像
 FROM gcr.io/distroless/python3-debian11
 COPY --from=build-venv /myapp /myapp
-COPY . /myapp
+COPY . /myapp/pipenv
 WORKDIR /myapp
 # 暴露Flask应用程序的端口（通常是5000）
 # 确保不生成 .pyc 文件,不会在 stdout 和 stderr 缓冲 I/O
@@ -24,7 +24,7 @@ ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
 EXPOSE 26001
 #ENTRYPOINT ["/venv/bin/python3", "psutil_example.py"]
 # 启动
-CMD ["pip", "run", "gunicorn", "-c", "gunicorn.conf.py", "run:app", "--preload"]
+CMD ["pip", "run", "gunicorn", "-c", "gunicorn.conf.py", "run:myapp", "--preload"]
 
 
 
