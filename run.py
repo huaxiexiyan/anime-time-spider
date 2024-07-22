@@ -3,4 +3,4 @@ import spider
 from spider import app
 
 if __name__ == '__main__':
-    app.run(debug=False, port=spider.bind_port)
+    app.run(debug=False, host='0.0.0.0', port=spider.bind_port)

@@ -61,6 +61,7 @@ class BiliBiliTask:
         app.logger.info('<<<<<<============ bilibili番剧索引查询任务【结束】 ============ >>>>>>')
 
     def season_index_condition_task(self):
+        app.logger.info('<<<<<<============ bilibili番剧索引筛选查询任务【开始】 ============ >>>>>>')
         bilibili_api = BilibiliApi()
         response_json = bilibili_api.get_season_index_condition().json()
         if 'code' in response_json:
@@ -70,7 +71,7 @@ class BiliBiliTask:
                 raise Exception('请求失败 code=【%s】', response_json['code'])
         else:
             raise Exception('请求失败 code参数不存在，response_json=【%s】', response_json)
-        app.logger.info('请求正常完成 结果 【%s】', r)
+        app.logger.info('<<<<<<============ bilibili番剧索引筛选查询任务【结束=%s】 ============ >>>>>>', r)
 
     def season_details_task(self):
         '''

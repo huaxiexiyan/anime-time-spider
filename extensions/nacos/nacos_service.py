@@ -64,7 +64,7 @@ class NacosService:
             port=port,
             group_name=group_name,
             metadata=metadata,
-            heartbeat_interval=5
+            heartbeat_interval=3
         )
         app.logger.info("nacos 注册实例【%s %s %s:%s】成功", group_name, service_name, ipv4, port)
 
