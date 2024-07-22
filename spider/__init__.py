@@ -1,6 +1,7 @@
 # 应用模块，包含所有与应用逻辑相关的内容。
 import logging
 import os
+from concurrent.futures import ThreadPoolExecutor
 from logging.config import dictConfig
 
 from flask import Flask
@@ -65,11 +66,6 @@ except OSError:
     pass
 
 app.logger.info('<<<<<<======================== flask 初始化 start ================================>>>>>> ')
-# 注册路由
-# from spider.api import aliyun_drive_task_api
-#
-# app.register_blueprint(aliyun_drive_task_api.bp, url_prefix="/api/aliyun-drives")
-
 # ======================== 其他连接配置 ================================
 from utils.env_parameter_utils import EnvParameterUtils, YamlUtils
 import uuid
@@ -120,12 +116,18 @@ try:
 except Exception as e:
     app.logger.exception('<<<<<<======================== Redis连接失败: %s ================================>>>>>>')
 
-
 # ======================== 应用启动后配置 ================================
 # 启动简单循环job
 # from spider.job.launcher import start_job
 #
 # start_job()
+# 注册路由
+from spider.api import bilibili_bp
+
+app.register_blueprint(bilibili_bp.bp, url_prefix="/api/bilibili")
+
+
+#
 def list_routes():
     output = []
     for rule in app.url_map.iter_rules():
@@ -140,4 +142,8 @@ def list_routes():
 
 
 app.logger.info('已注册的路由地址如下: \n%s', list_routes())
+
+# 初始化一个线程池
+common_executor = ThreadPoolExecutor(max_workers=12, thread_name_prefix='common-thread-pool')  # 根据需要设置线程池的大小
+atexit.register(lambda: common_executor.shutdown(wait=True))
 app.logger.info('<<<<<<======================== flask 初始化 end ================================>>>>>> ')

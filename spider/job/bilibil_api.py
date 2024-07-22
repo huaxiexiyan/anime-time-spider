@@ -1,4 +1,5 @@
 import requests
+
 from spider import app
 
 
@@ -9,17 +10,23 @@ class BilibiliApi:
     access_key = '#'
 
     @classmethod
-    def get_season_index_result(cls, start_year, end_year, page) -> requests.Response:
-        year = f"[{start_year},{end_year})"
+    def get_season_index_result(cls, year, page) -> requests.Response:
+        """
+        番剧索引
+        :param year: 全部是 -1，范围 [start_year, end_year)
+        :param page:
+        :return:
+        """
         if page < 1:
             page = 1
         url = "https://api.bilibili.com/pgc/season/index/result"
         payload = {}
         params = {
             "st": 1,
-            "order": 0,
+            "order": 5,
             "season_version": -1,
             "spoken_language_type": -1,
+            "area": -1,
             "is_finish": -1,
             "copyright": -1,
             "season_status": -1,
@@ -33,9 +40,7 @@ class BilibiliApi:
             "type": 1,
         }
         response = requests.get(url, json=payload, params=params, headers=cls.headers, timeout=5)
-        app.logger.info(
-            "请求参数【start_year=%s】【end_year=%s】【page=%s】页，实际请求【%s】", start_year, end_year, page,
-            response.request.url)
+        app.logger.debug("请求参数【year=%s】【page=%s】页，实际请求【%s】", year, page, response.request.url)
         return response
 
     @classmethod
@@ -60,17 +65,22 @@ class BilibiliApi:
             "type": 0,  # 页码，从 1 开始
         }
         response = requests.get(url, json=payload, params=params, headers=cls.headers, timeout=5)
-        app.logger.info("实际请求【%s】", response.request.url)
-        app.logger.info("请求响应%s", response.json())
+        app.logger.debug("实际请求【%s】", response.request.url)
+        app.logger.debug("请求响应%s", response.json())
         return response
 
     @classmethod
-    def get_season(cls, season_id) -> requests.Response:
+    def get_season_details(cls, season_id) -> requests.Response:
+        """
+        获取详情
+        :param season_id:
+        :return:
+        """
         url = "https://api.bilibili.com/pgc/view/web/season"
         payload = {}
         params = {
             "season_id": season_id
         }
         response = requests.get(url, json=payload, params=params, headers=cls.headers, timeout=5)
-        app.logger.info("请求参数【season_id=%s】，实际请求【%s】", season_id, response.request.url)
+        app.logger.debug("请求参数【season_id=%s】，实际请求【%s】", season_id, response.request.url)
         return response
