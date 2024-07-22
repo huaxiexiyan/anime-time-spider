@@ -124,7 +124,7 @@ except Exception as e:
 # 注册路由
 from spider.api import bilibili_bp
 
-app.register_blueprint(bilibili_bp.bp, url_prefix="/api/bilibili")
+app.register_blueprint(bilibili_bp.bp, url_prefix="/bilibili")
 
 
 #
