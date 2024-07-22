@@ -20,7 +20,7 @@ dictConfig({
     'version': 1,
     'formatters': {
         'default': {  # %()s 文字靠右，左边补空格。 # %()-s 文字靠左，右边补空格
-            'format': '%(asctime)s %(levelname)-7s %(name)-12s [%(lineno)4d] %(module)-15s : %(message)s'
+            'format': '%(asctime)s %(levelname)-7s %(threadName)-12s [%(lineno)4d] %(module)-15s : %(message)s'
         }
     },
     'handlers': {
