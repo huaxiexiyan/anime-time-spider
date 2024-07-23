@@ -96,7 +96,7 @@ class BiliBiliTask:
                     if 'code' in season_details_response:
                         if season_details_response['code'] == 0:
                             # 设置存储键
-                            redis_key = f'{self.cache_key_season_index}{season_id}'
+                            redis_key = f'{self.cache_key_season_details}{season_id}'
                             r = redis_client.set(redis_key, json.dumps(season_details_response))
                             app.logger.info('请求正常完成，存储【%s】结果 【%s】', redis_key, r)
                             # 请求下一页前，暂停几秒
